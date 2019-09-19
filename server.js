@@ -1,15 +1,20 @@
 const express = require('express');
-const path = require('path');
-const rootDirectory = require('./utility/path');
-const sourceFile = require(path.join(rootDirectory, 'json-folder', 'sample.json'))
+const getMeme = require('./models/getMeme');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+
+getMeme.run();
+
+setInterval(() => {
+    getMeme.run();
+}, 600000)
 
 // creating default root route for api request
-app.get('/', (req, res, next) => {
-    res.send(sourceFile);
+app.get('/', (req, res) => {
+    console.log(getMeme.memeData);
+    res.json(getMeme.memeData);
 });
 
 console.log(`running the server at "http://localhost: ${port}/"`);
