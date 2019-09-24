@@ -1,9 +1,11 @@
 const express = require('express');
 const getMeme = require('./models/getMeme');
 const app = express();
+var cors = require('cors')
 const port = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: false }));
+app.use(cors())
 
 getMeme.run();
 
